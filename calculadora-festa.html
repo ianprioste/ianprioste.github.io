@@ -244,21 +244,6 @@
         text-align: center;
       }
 
-      .btn-remove {
-        background: #e53935;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 4px 8px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background 0.2s;
-      }
-
-      .btn-remove:hover {
-        background: #d32f2f;
-      }
-
       .btn-clear-all {
         width: 100%;
         padding: 12px;
@@ -518,20 +503,14 @@
               <button class="btn-qty" data-action="minus" aria-label="Diminuir quantidade">−</button>
               <div class="item-quantity">${quantity}</div>
               <button class="btn-qty" data-action="plus" aria-label="Aumentar quantidade">+</button>
-              <button class="btn-remove" aria-label="Remover ${itemName}">🗑</button>
             </div>
           `;
 
           const btnMinus = row.querySelector('[data-action="minus"]');
           const btnPlus = row.querySelector('[data-action="plus"]');
-          const btnRemove = row.querySelector('.btn-remove');
 
           btnMinus.onclick = () => removeItem(itemName);
           btnPlus.onclick = () => addItem(itemName);
-          btnRemove.onclick = () => {
-            cart[itemName] = 0;
-            removeItem(itemName);
-          };
 
           orderList.appendChild(row);
         });
