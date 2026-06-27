@@ -94,6 +94,7 @@
       }
 
       .item-btn {
+        position: relative;
         padding: 12px 8px;
         border: 2px solid #e0e0e0;
         background: white;
@@ -124,6 +125,24 @@
       .item-btn.selected .item-price {
         color: white;
         opacity: 0.9;
+      }
+
+      .item-count-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 22px;
+        height: 22px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: #e53935;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
       }
 
       .item-name {
@@ -295,6 +314,11 @@
           grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         }
 
+        .item-count-badge {
+          top: -6px;
+          right: -6px;
+        }
+
         .total-value {
           font-size: 28px;
         }
@@ -463,23 +487,16 @@
           itemsGrid.className = 'items-grid';
 
           filteredItems.forEach(item => {
+            const quantity = cart[item.name] || 0;
             const btn = document.createElement('button');
-            btn.className = 'item-btn';
+            btn.className = quantity > 0 ? 'item-btn selected' : 'item-btn';
             btn.innerHTML = `
               <span class="item-name">${item.name}</span>
               <span class="item-price">${formatCurrency(item.price)}</span>
+              ${quantity > 0 ? `<span class="item-count-badge">${quantity}</span>` : ''}
             `;
             btn.onclick = () => addItem(item.name);
             itemsGrid.appendChild(btn);
-          });
-
-          // Aplicar classe selected aos itens que estão no carrinho
-          const itemBtns = itemsGrid.querySelectorAll('.item-btn');
-          itemBtns.forEach(btn => {
-            const itemName = btn.querySelector('.item-name').textContent;
-            if (cart[itemName]) {
-              btn.classList.add('selected');
-            }
           });
 
           categoryDiv.appendChild(titleDiv);
@@ -538,6 +555,7 @@
 
       function render() {
         document.getElementById('totalValue').textContent = formatCurrency(total);
+        renderCategories(document.getElementById('searchInput').value);
         renderOrderList();
       }
 
